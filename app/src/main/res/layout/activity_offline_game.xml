@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OfflineGame"
+    android:orientation="vertical">
+
+    <com.example.snakegame.GameView
+        android:id="@+id/gameView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        android:background="#3F51B5"
+        android:layout_weight="1"
+        android:layout_alignParentBottom="true">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:src="@drawable/apple"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="0.5"/>
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:src="@drawable/trophy"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="0.5"/>
+            <TextView
+                android:id="@+id/bestScore"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
