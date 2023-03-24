@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.os.CountDownTimer;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameView extends View {
+public class TimeGameView extends View {
     private Bitmap bitmapDarkGrass, bitmapLightGrass, bitmapSnake, bitmapApple;
     public static int fieldSize = 75 * ScreenSize.SCREEN_WIDTH / 1080;
     private ArrayList<Grass> arrayGrass = new ArrayList<>();
@@ -29,11 +29,13 @@ public class GameView extends View {
     private static boolean isPlaying = false;
     public static int score = 0, bestScore = 0;
     public MyDB database;
-    private OfflineGame activity;
+    private Time activity;
+    public int minutes, seconds;
+    private int isWorking = 0;
 
-    public GameView(Context context, @Nullable AttributeSet attrs) {
+    public TimeGameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        activity = (OfflineGame) context;
+        activity = (Time) context;
         database = MainActivity.database;
         bitmapDarkGrass = BitmapFactory.decodeResource(this.getResources(), R.drawable.grass_dark);
         bitmapDarkGrass = Bitmap.createScaledBitmap(bitmapDarkGrass, fieldSize, fieldSize, true);
@@ -43,7 +45,10 @@ public class GameView extends View {
         bitmapSnake = Bitmap.createScaledBitmap(bitmapSnake, 14 * fieldSize, fieldSize, true);
         bitmapApple = BitmapFactory.decodeResource(this.getResources(), R.drawable.apple);
         bitmapApple = Bitmap.createScaledBitmap(bitmapApple, fieldSize, fieldSize, true);
-        bestScore = database.select(1).points;
+        bestScore = database.select(4).points;
+        Time.minutesC = 2;
+        Time.secondsC = 0;
+        isWorking = 0;
         // 1-е создание игрового поля
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -110,6 +115,10 @@ public class GameView extends View {
                 move = false;
                 break;
         }
+        if (isWorking == 0) {
+            isWorking = 1;
+            Time.timer.start();
+        }
         return true;
     }
 
@@ -139,13 +148,13 @@ public class GameView extends View {
             apple.reset(arrayGrass.get(appleGeneration()[0]).getX(), arrayGrass.get(appleGeneration()[1]).getY());
             snake.addPart();
             score += 1;
-            OfflineGame.score.setText(String.valueOf(score));
+            Time.score.setText(String.valueOf(score));
             if (score > bestScore) {
                 bestScore = score;
-                OfflineGame.bestScore.setText(String.valueOf(bestScore));
+                Time.bestScore.setText(String.valueOf(bestScore));
             }
             else {
-                OfflineGame.bestScore.setText(String.valueOf(bestScore));
+                Time.bestScore.setText(String.valueOf(bestScore));
             }
         }
         handler.postDelayed(runnable, snake.getVelocity());
@@ -178,11 +187,11 @@ public class GameView extends View {
     }
 
     // завершение игры
-    private void gameOver(){
+    public void gameOver(){
         isPlaying = false;
         activity.gameOver(score);
-        if (bestScore > database.select(1).points) {
-            ScoreForDB scoreForDB = new ScoreForDB(1, score);
+        if (bestScore > database.select(4).points) {
+            ScoreForDB scoreForDB = new ScoreForDB(4, score);
             database.update(scoreForDB);
         }
     }
@@ -192,9 +201,13 @@ public class GameView extends View {
         snake = new Snake(bitmapSnake, arrayGrass.get(126).getX(), arrayGrass.get(126).getY(), 4, 140);
         apple = new Apple(bitmapApple, arrayGrass.get(appleGeneration()[0]).getX(), arrayGrass.get(appleGeneration()[1]).getY());
         score = 0;
-        bestScore = database.select(1).points;
-        OfflineGame.score.setText(String.valueOf(score));
-        OfflineGame.bestScore.setText(String.valueOf(bestScore));
+        bestScore = database.select(4).points;
+        Time.score.setText(String.valueOf(score));
+        Time.bestScore.setText(String.valueOf(bestScore));
+        Time.minutesC = 2;
+        Time.secondsC = 0;
+        Time.minutes.setText(String.valueOf(minutes));
+        Time.seconds.setText(String.valueOf(seconds));
     }
 
 }

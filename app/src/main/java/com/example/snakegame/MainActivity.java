@@ -10,7 +10,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button offline, online;
+    Button offline, online, run, time;
     public static MyDB database;
 
     @Override
@@ -21,16 +21,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         init();
         database = new MyDB(this);
         if (database.selectAll().size() == 0) {
-            database.insert(0);
-            database.insert(0);
+            for (int i = 0; i < 4; i++) {
+                database.insert(0);
+            }
         }
     }
     // поиск виджетов
     public void init() {
         offline = findViewById(R.id.Offline);
         online = findViewById(R.id.Online);
+        run = findViewById(R.id.Run);
+        time = findViewById(R.id.Time);
         offline.setOnClickListener(this);
         online.setOnClickListener(this);
+        run.setOnClickListener(this);
+        time.setOnClickListener(this);
     }
     // обработка нажатий
     @Override
@@ -43,6 +48,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.Online:
                 Intent intent1 = new Intent(MainActivity.this, SecondMode.class);
                 startActivity(intent1);
+                break;
+            case R.id.Run:
+                Intent intent2 = new Intent(MainActivity.this, RunRun.class);
+                startActivity(intent2);
+                break;
+            case R.id.Time:
+                Intent intent3 = new Intent(MainActivity.this, Time.class);
+                startActivity(intent3);
                 break;
         }
     }

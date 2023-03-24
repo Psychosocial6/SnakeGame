@@ -125,7 +125,7 @@ public class SecondGameView extends View {
         arrayWall.add(new Wall(bitmapWall, ScreenSize.SCREEN_WIDTH / 2 - (width / 2) * fieldSize, 18 * fieldSize + 100 * ScreenSize.SCREEN_HEIGHT / 1920, fieldSize, fieldSize));
         arrayWall.add(new Wall(bitmapWall, fieldSize + ScreenSize.SCREEN_WIDTH / 2 - (width / 2) * fieldSize, 18 * fieldSize + 100 * ScreenSize.SCREEN_HEIGHT / 1920, fieldSize, fieldSize));
 
-        snake = new Snake(bitmapSnake, arrayGrass.get(130).getX(), arrayGrass.get(130).getY(), 4);
+        snake = new Snake(bitmapSnake, arrayGrass.get(130).getX(), arrayGrass.get(130).getY(), 4, 140);
         int [] list = appleGeneration();
         apple = new Apple(bitmapApple, arrayGrass.get(list[0]).getX(), arrayGrass.get(list[1]).getY());
         handler = new android.os.Handler();
@@ -149,25 +149,25 @@ public class SecondGameView extends View {
                     move = true;
                 }
                 else {
-                    if (mX - event.getX() > 100 * ScreenSize.SCREEN_WIDTH / 1080 && !snake.isMoveRight()) {
+                    if (mX - event.getX() > 125 * ScreenSize.SCREEN_WIDTH / 1080 && !snake.isMoveRight()) {
                         mX = event.getX();
                         mY = event.getY();
                         snake.setMoveLeft(true);
                         isPlaying = true;
                     }
-                    else if (event.getX() - mX > 100 * ScreenSize.SCREEN_WIDTH / 1080 && !snake.isMoveLeft()) {
+                    else if (event.getX() - mX > 125 * ScreenSize.SCREEN_WIDTH / 1080 && !snake.isMoveLeft()) {
                         mX = event.getX();
                         mY = event.getY();
                         snake.setMoveRight(true);
                         isPlaying = true;
                     }
-                    else if (mY - event.getY() > 100 * ScreenSize.SCREEN_WIDTH / 1080 && !snake.isMoveDown()) {
+                    else if (mY - event.getY() > 125 * ScreenSize.SCREEN_WIDTH / 1080 && !snake.isMoveDown()) {
                         mX = event.getX();
                         mY = event.getY();
                         snake.setMoveUp(true);
                         isPlaying = true;
                     }
-                    else if (event.getY() - mY > 100 * ScreenSize.SCREEN_WIDTH / 1080 && !snake.isMoveUp()) {
+                    else if (event.getY() - mY > 125 * ScreenSize.SCREEN_WIDTH / 1080 && !snake.isMoveUp()) {
                         mX = event.getX();
                         mY = event.getY();
                         snake.setMoveDown(true);
@@ -223,8 +223,11 @@ public class SecondGameView extends View {
                 bestScore = score;
                 SecondMode.bestScore.setText(String.valueOf(bestScore));
             }
+            else {
+                SecondMode.bestScore.setText(String.valueOf(bestScore));
+            }
         }
-        handler.postDelayed(runnable, 100);
+        handler.postDelayed(runnable, snake.getVelocity());
     }
 
     // создание яблока
@@ -265,7 +268,7 @@ public class SecondGameView extends View {
 
     // перезапуск
     public void reset() {
-        snake = new Snake(bitmapSnake, arrayGrass.get(130).getX(), arrayGrass.get(130).getY(), 4);
+        snake = new Snake(bitmapSnake, arrayGrass.get(130).getX(), arrayGrass.get(130).getY(), 4, 140);
         int [] list = appleGeneration();
         apple = new Apple(bitmapApple, arrayGrass.get(list[0]).getX(), arrayGrass.get(list[1]).getY());
         score = 0;

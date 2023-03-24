@@ -10,12 +10,14 @@ public class Snake {
     private int x, y, length;
     private Bitmap bitmap, bitmapHeadUp, bitmapHeadDown, bitmapHeadLeft, bitmapHeadRight, bitmapBodyVertical, bitmapBodyHorizontal, bitmapBodyTopRight, bitmapBodyTopLeft, bitmapBodyBottomRight, bitmapBodyBottomLeft, bitmapTailUp, bitmapTailDown, bitmapTailRight, bitmapTailLeft;
     private ArrayList<PartSnake> arrayListPartSnake = new ArrayList<>();
+    private int velocity;
 
-    public Snake(Bitmap bitmap, int x, int y, int length) {
+    public Snake(Bitmap bitmap, int x, int y, int length, int velocity) {
         this.bitmap = bitmap;
         this.x = x;
         this.y = y;
         this.length = length;
+        this.velocity = velocity;
         bitmapBodyBottomLeft = Bitmap.createBitmap(bitmap, 0, 0, GameView.fieldSize, GameView.fieldSize);
         bitmapBodyBottomRight = Bitmap.createBitmap(bitmap, GameView.fieldSize, 0, GameView.fieldSize, GameView.fieldSize);
         bitmapBodyHorizontal = Bitmap.createBitmap(bitmap, 2 * GameView.fieldSize, 0, GameView.fieldSize, GameView.fieldSize);
@@ -252,6 +254,10 @@ public class Snake {
     public void setArrayListPartSnake(ArrayList<PartSnake> arrayListPartSnake) {
         this.arrayListPartSnake = arrayListPartSnake;
     }
+
+    public void setVelocity(int velocity) { this.velocity = velocity; }
+
+    public int getVelocity() { return velocity; }
 
     public boolean isMoveLeft() {
         return moveLeft;
